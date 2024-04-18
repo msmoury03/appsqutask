@@ -12,7 +12,7 @@ import Dashboardpage from './Pages/Task2/Pages/Dashboardpage';
 
 function App() {
 
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('jwt')
 
   return (
     <Router>

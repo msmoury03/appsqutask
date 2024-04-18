@@ -8,7 +8,7 @@ const Loginpage = () => {
 
     const navigate = useNavigate()
     const [data, setdata] = useState({
-        email: '',
+        mobile: '',
         password: ''
     })
 
@@ -29,16 +29,61 @@ const Loginpage = () => {
 
     // this function call for login button clicked 
 
+    // const handlelogin = async () => {
+    //     if (data.email !== '') {
+    //         if (data.password !== '') {
+    //             setloading(true)
+    //             await axios.post('https://dummyjson.com/auth/login', { username: data.email, password: data.password }).then((res) => {
+    //                 toast.success('Login Successfull')
+    //                 localStorage.setItem('token', res.data?.token)
+    //                 localStorage.setItem('userinfo', JSON.stringify(res.data))
+    //                 navigate('/dashboard')
+    //                 window.location.reload()
+
+
+
+
+
+
+
+    //             }).catch((e) => {
+    //                 toast.error(e?.response?.data?.message)
+    //             })
+    //             setloading(false)
+
+
+    //         } else {
+    //             toast.warn('please enter password')
+    //         }
+    //     } else {
+    //         toast.warn('Please enter a valid username')
+    //     }
+    // }
+
+
     const handlelogin = async () => {
-        if (data.email !== '') {
+        if (data.mobile !== '') {
             if (data.password !== '') {
                 setloading(true)
-                await axios.post('https://dummyjson.com/auth/login', { username: data.email, password: data.password }).then((res) => {
-                    toast.success('Login Successfull')
-                    localStorage.setItem('token', res.data?.token)
-                    localStorage.setItem('userinfo', JSON.stringify(res.data))
-                    navigate('/dashboard')
-                    window.location.reload()
+                await axios.post('https://developmentapi.videocrypt.in/data_model/users/login_auth',  `device_id=0&mobile=${data?.mobile}&is_social=0&c_code=91&password=${data?.password}` ,{headers:{"Version":1998,"Lang":1,"Devicetype":4}}).then((res) => {
+                    // toast.success('Login Successfull')
+                    // localStorage.setItem('token', res.data?.token)
+                    // localStorage.setItem('userinfo', JSON.stringify(res.data))
+                    // navigate('/dashboard')
+                    // window.location.reload()
+
+                    if(res.data?.status){
+                        toast.success(res.data?.message)
+                        localStorage.setItem('jwt', res.data?.data?.jwt)
+
+                                // localStorage.setItem('userinfo', JSON.stringify(res.data))
+                                navigate('/dashboard')
+                                window.location.reload()
+
+                    }else{
+                    toast.error(res.data?.message)
+
+                    }
 
 
 
@@ -56,7 +101,7 @@ const Loginpage = () => {
                 toast.warn('please enter password')
             }
         } else {
-            toast.warn('Please enter a valid username')
+            toast.warn('Please enter a valid Mobile Number')
         }
     }
 
@@ -73,8 +118,8 @@ const Loginpage = () => {
                             </h1>
                             <div class="space-y-4 md:space-y-6">
                                 <div>
-                                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your username</label>
-                                    <input type="text" onChange={handleChange} name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="username" required="" />
+                                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Mobile</label>
+                                    <input type="text" onChange={handleChange} name="mobile" id="mobile" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="mobile" required="" />
                                 </div>
                                 <div>
                                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
